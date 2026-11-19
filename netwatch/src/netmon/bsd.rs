@@ -223,6 +223,28 @@ mod tests {
         m
     }
 
+    /// A header-only route message of the given type, parsed by the real parser.
+    #[cfg(any(target_os = "macos", target_os = "ios"))]
+    fn route_message(rtm_type: libc::c_int) -> WireMessage {
+        const HEADER_LEN: usize = 92;
+        let mut buf = vec![0u8; HEADER_LEN];
+        buf[..2].copy_from_slice(&(HEADER_LEN as u16).to_ne_bytes()); // rtm_msglen
+        buf[2] = libc::RTM_VERSION as u8;
+        buf[3] = rtm_type as u8;
+        let mut msgs = parse_rib(libc::NET_RT_DUMP, &buf).expect("parse_rib");
+        assert_eq!(msgs.len(), 1);
+        msgs.remove(0)
+    }
+
+    /// RTM_MISS is a lookup failure, not a routing table change.
+    #[test]
+    #[cfg(any(target_os = "macos", target_os = "ios"))]
+    fn rtm_miss_is_not_interesting() {
+        assert!(!is_interesting_message(&route_message(libc::RTM_MISS)));
+        assert!(is_interesting_message(&route_message(libc::RTM_ADD)));
+        assert!(is_interesting_message(&route_message(libc::RTM_DELETE)));
+    }
+
     /// [`read_available`] must drain every queued message in one readiness
     /// episode, not just one per wakeup. Uses an `AF_UNIX` datagram socketpair
     /// so it is deterministic and independent of the routing subsystem.
