@@ -1225,7 +1225,7 @@ dependencies = [
 [[package]]
 name = "noq-udp"
 version = "1.1.0"
-source = "git+https://github.com/agent-habilis/noq?rev=13fad1646e70daa0a29d23ac9953e8c6a58141f3#13fad1646e70daa0a29d23ac9953e8c6a58141f3"
+source = "git+https://github.com/agent-habilis/noq?rev=6c6b21708c4c33a194572ec82e42627c5631ed82#6c6b21708c4c33a194572ec82e42627c5631ed82"
 dependencies = [
  "cfg_aliases",
  "libc",

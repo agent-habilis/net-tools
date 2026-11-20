@@ -36,7 +36,7 @@ tracing = "0.1"
 
 # non-browser dependencies
 [target.'cfg(not(all(target_family = "wasm", target_os = "unknown")))'.dependencies]
-noq-udp = { version = "1.1.0", git = "https://github.com/agent-habilis/noq", rev = "13fad1646e70daa0a29d23ac9953e8c6a58141f3" }
+noq-udp = { version = "1.1.0", git = "https://github.com/agent-habilis/noq", rev = "6c6b21708c4c33a194572ec82e42627c5631ed82" }
 libc = "0.2.139"
 socket2 = { version = "0.6", features = ["all"] }
 tokio = { version = "1", features = ["rt", "net"] }
